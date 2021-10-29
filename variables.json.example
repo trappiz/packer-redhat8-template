@@ -1,0 +1,14 @@
+{
+	"vcenter_server": 	"vcenter.domain",
+	"vcenter_username": 	"administrator@vsphere.local",
+	"vcenter_password":     "mypassword",
+	"template_name": 	"redhat-test-template",
+	"datastore": 		"datastore-to-use",
+	"folder": 		"Templates",
+	"cluster": 		"home-lab",
+	"datacenter": 		"home",
+	"template_network": 	"lab-network",
+	"iso_path": 		"ISOs/redhat/rhel-8.4-x86_64-dvd.iso",
+	"packer_bastion_host": 	"",
+	"packer_bastion_key": 	""
+}

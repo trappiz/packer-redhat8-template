@@ -1,0 +1,58 @@
+{
+  "builders": [
+    {
+      "CPUs": 4,
+      "RAM": 4096,
+      "boot_command": [
+        "<esc><wait>",       
+        "vmlinuz initrd=initrd.img inst.ks=cdrom:sr1:/ks.cfg inst.stage2=hd:LABEL=RHEL-8-4-0-BaseOS-x86_64",
+        "<enter>"
+      ],
+      "boot_order": "disk,cdrom",
+      "boot_wait": "5s",
+      "cluster": "{{ user `cluster` }}",
+      "convert_to_template": true,
+      "datacenter": "{{ user `datacenter` }}",
+      "datastore": "{{ user `datastore` }}",
+      "disk_controller_type": "pvscsi",
+      "folder": "{{user `folder`}}",
+      "guest_os_type": "rhel8_64Guest",
+      "insecure_connection": "true",
+      "iso_paths": "[{{ user `datastore` }}] {{user `iso_path` }}",
+      "cd_files": [
+        "{{template_dir}}/ks.cfg"
+      ],
+      "cd_label": "OEMDRV",
+      "network_adapters": [
+        {
+          "network": "{{user `template_network`}}",
+          "network_card": "vmxnet3"
+        }
+      ],
+      "password": "{{ user `vcenter_password` }}",
+      "ssh_password": "redhat",
+      "ssh_timeout": "600s",
+      "ssh_username": "root",
+      "storage": [
+        {
+          "disk_size": 40000,
+          "disk_thin_provisioned": true
+        }
+      ],
+      "type": "vsphere-iso",
+      "username": "{{ user `vcenter_username` }}",
+      "vcenter_server": "{{ user `vcenter_server` }}",
+      "vm_name": "{{ user `template_name` }}"
+    }
+  ],
+  "provisioners": [
+    {
+      "execute_command": "echo 'redhat' | {{.Vars}} sudo -S -E bash '{{.Path}}'",
+      "scripts": [
+        "scripts/cleanup.sh"
+      ],
+      "type": "shell"
+    }
+  ]
+}
+
